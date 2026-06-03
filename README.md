@@ -1,6 +1,6 @@
 # 🤖 Agentic Code Editor
 
-An AI-powered code editor where you describe what you want in plain English and a team of intelligent agents handles the rest. No manual coding required — just type your request and the agents plan, write, debug, test, review, and document your code automatically.
+A chat-based AI coding assistant built with **Google ADK**, **Groq API**, and **Streamlit**, where users simply describe what they want in plain English or upload a file and a team of 8 specialized agents handles the rest — an **Orchestrator** routes each request to the right agent, the **Planner** breaks complex tasks into steps, **Code Generation** writes new code, **Code Edit** refactors existing code, **Debugger** finds and fixes bugs, **Test Writer** generates tests, **Reviewer** checks for quality and security issues, and **Documentation** adds docstrings and comments — with responses rendered in real-time with syntax-highlighted, copyable code blocks, all powered by **LLaMA 3.3 70B** on Groq's free tier at zero infrastructure cost.
 
 ---
 
@@ -26,7 +26,7 @@ Planner  Code Gen  Code Edit  Debug  Tests  Review  Docs
 | **Orchestrator** | Understands user intent, delegates to specialist agents, handles explain/clarify directly |
 | **Planner** | Breaks complex requests into ordered steps |
 | **Code Generation** | Writes new code from natural language descriptions |
-| **Code Edit** | Modifies and refactors pasted code |
+| **Code Edit** | Modifies and refactors pasted or uploaded code |
 | **Debugger** | Finds root causes of bugs and returns fixed code |
 | **Test Writer** | Generates unit and integration tests (pytest / Jest) |
 | **Reviewer** | Reviews code for quality, security, and performance |
@@ -53,6 +53,7 @@ agentic-code-editor/
 ├── .env                    ← API keys
 ├── .env.example
 ├── requirements.txt
+├── README.md
 │
 ├── frontend/
 │   └── app.py              ← Streamlit UI (entry point)
@@ -119,12 +120,25 @@ Get a free key at → [console.groq.com](https://console.groq.com)
 ### 5. Run the app
 
 ```bash
-.\backend\venv\Scripts\streamlit run frontend\app.py   # Windows
-# or
-backend/venv/bin/streamlit run frontend/app.py         # macOS / Linux
+# Windows
+.\backend\venv\Scripts\streamlit run frontend\app.py
+
+# macOS / Linux
+backend/venv/bin/streamlit run frontend/app.py
 ```
 
 Open **http://localhost:8501** in your browser.
+
+---
+
+## ✨ Features
+
+- 💬 **Chat interface** — describe what you want in plain English
+- 📁 **File upload** — upload `.py`, `.js`, `.ts`, `.tsx`, `.jsx`, `.txt` files directly into the chat
+- 🎨 **Syntax highlighting** — all code responses rendered with proper language highlighting
+- 📋 **Copy button** — one-click copy on every code block
+- ⚡ **Real-time streaming** — see agent responses token-by-token as they generate
+- 🔀 **Agent routing** — orchestrator automatically picks the right specialist agent
 
 ---
 
@@ -133,13 +147,13 @@ Open **http://localhost:8501** in your browser.
 | What you type | What happens |
 |---|---|
 | `Write a Python function to sort a list of dicts by a key` | Code Generation agent writes the function |
-| `Refactor this code to use async/await` + paste code | Code Edit agent rewrites it |
+| `Refactor this to use async/await` + paste code | Code Edit agent rewrites it |
 | `My app crashes with KeyError: 'name'` + paste code | Debugger finds and fixes the bug |
 | `Write tests for this` + paste code | Test Writer generates pytest tests |
 | `Review this for security issues` + paste code | Reviewer checks and reports findings |
 | `Add docstrings to this` + paste code | Documentation agent adds docstrings |
 | `Explain what this code does` + paste code | Orchestrator explains it directly |
-| `Build a REST API with FastAPI` | Planner + Code Generation work together |
+| Upload a `.py` file + `refactor this` | File contents sent automatically to the agent |
 
 ---
 
@@ -157,9 +171,10 @@ All models run on **Groq's free tier** — no cost, no local GPU required.
 
 ## 📌 Notes
 
-- Input and output are **text only** — paste code directly into the chat
+- Input and output are **text only** — paste or upload code directly into the chat
 - All agents run on Groq's free API — no paid subscription needed
 - The orchestrator handles explain, clarify, and conversational messages directly without delegating
+- Groq enforces a 10-enum tool schema limit — sub-agents are capped at 7 to stay within bounds
 
 ---
 
