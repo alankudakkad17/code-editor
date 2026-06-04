@@ -177,7 +177,3 @@ All models run on **Groq's free tier** — no cost, no local GPU required.
 - Groq enforces a 10-enum tool schema limit — sub-agents are capped at 7 to stay within bounds
 
 ---
-
-## 📄 License
-
-MIT License — free to use, modify, and distribute.
